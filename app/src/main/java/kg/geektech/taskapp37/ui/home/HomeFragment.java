@@ -5,31 +5,45 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import kg.geektech.taskapp37.NewsFragment;
 import kg.geektech.taskapp37.R;
 import kg.geektech.taskapp37.databinding.FragmentHomeBinding;
+import kg.geektech.taskapp37.interfaces.OnItemClickListener;
 import kg.geektech.taskapp37.models.News;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
+    private NewsAdapter adapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        adapter = new NewsAdapter();
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onClick(int pos) {
+                News news = adapter.getItem(pos);
+                Toast.makeText(requireContext(), news.getTitle(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(int pos) {
+
+            }
+        });
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -42,6 +56,7 @@ public class HomeFragment extends Fragment {
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 News news = (News) result.getSerializable("news");
                 Log.e("Home", "text= " + news.getTitle());
+                adapter.addItem(news);
             }
         });
         return root;
@@ -50,6 +65,16 @@ public class HomeFragment extends Fragment {
     private void openFragment(){
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         navController.navigate(R.id.newsFragment);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initList();
+    }
+
+    private void initList() {
+        binding.recyclerView.setAdapter(adapter);
     }
 
     @Override
