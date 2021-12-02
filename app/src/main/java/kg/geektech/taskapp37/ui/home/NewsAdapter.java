@@ -42,7 +42,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.bind(list.get(position), onItemClickListener);
         if (position % 2 == 0) {
             binding.textTitle.setBackgroundColor(Color.GRAY);
-
         } else {
             binding.textTitle.setBackgroundColor(Color.WHITE);
         }
@@ -69,6 +68,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        public void remove(News news, int pos){
+            list.remove(news);
+            notifyItemRemoved(pos);
+        }
+
         public ViewHolder(@NonNull ItemNewsBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
@@ -84,8 +88,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         list.remove(getAdapterPosition());
-                        notifyDataSetChanged();
+                        notifyItemRemoved(i);
                     }
+
                 });
                 alertDialog.setNegativeButton(cancel, null);
                 alertDialog.show();
