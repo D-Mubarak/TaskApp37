@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".BoardFragment">
 
-    <TextView
+    <Button
         android:id="@+id/skip"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="6dp"
+        android:background="@null"
         android:paddingEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         android:text="skip >>"
         android:textAlignment="textEnd"
         android:textSize="18sp"
@@ -22,6 +25,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toBottomOf="@+id/skip" />
+
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dotsInd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:dotsSize="6dp"
+        app:selectedDotColor="@color/black"
+        app:dotsColor="@color/black"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

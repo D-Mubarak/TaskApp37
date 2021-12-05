@@ -15,8 +15,13 @@ import kg.geektech.taskapp37.interfaces.OnStartClickListener;
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
     private ItemBoardBinding binding;
-    private String[] titles = new String[]{"gh", "gt", "gy"};
-    //private Uri[] uris =
+    private String[] titles = new String[]{"Java", "Python", "Kotlin"};
+    private String java = "Java - Строго типизированный объектно-ориентированный язык программирования общего назначения, разработанный компанией Sun Microsystems";
+    private String python = "Язык является полностью объектно-ориентированным - всё является объектами. Необычной особенностью языка является выделение блоков кода пробельными отступами";
+    private String kotlin = "Статически типизированный, объектно-ориентированный язык программирования, работающий поверх Java Virtual Machine и разрабатываемый компанией JetBrains";
+    private String[] info = new String[]{java, python, kotlin};
+    //private Uri[] uris = new Uri[]{};
+    private int[] images = new int[]{R.drawable.java,R.drawable.python, R.drawable.kotlin };
     private OnStartClickListener clickListener;
 
     @NonNull
@@ -41,8 +46,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView skip;
-
         public ViewHolder(@NonNull ItemBoardBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
@@ -56,13 +59,14 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
         public void bind(int position) {
             binding.textTitle.setText(titles[position]);
-            if (position == titles.length - 1) {
+            binding.imageView.setImageResource(images[position]);
+            binding.textDesc.setText(info[position]);
+            if (position == titles.length - 1 && position == images.length - 1) {
                 binding.btnStart.setVisibility(View.VISIBLE);
-                skip.setVisibility(View.VISIBLE);
             } else {
                 binding.btnStart.setVisibility(View.INVISIBLE);
-                skip.setVisibility(View.INVISIBLE);
             }
         }
     }
+
 }
